@@ -6,7 +6,7 @@
         {
             "type": "shell",
             "label": "Biuld host",
-            "command": "/usr/bin/g++",
+            "command": "/usr/bin/gcc",
             "args": [
                 "-g",
                 "-march=native",

@@ -13,6 +13,8 @@ extern "C"
 {
 #endif
 
+  //To make inputs to bram.
+
 #pragma SDS data zero_copy(     \
     real [0:FFT_SIZE],          \
     img [0:FFT_SIZE],           \
@@ -29,7 +31,7 @@ extern "C"
       img_twid                   \
     : SEQUENTIAL)
 
-        void fft(double real[FFT_SIZE], double img[FFT_SIZE], double real_twid[FFT_SIZE / 2], double img_twid[FFT_SIZE / 2]);
+  void fft(double real[FFT_SIZE], double img[FFT_SIZE], double real_twid[FFT_SIZE / 2], double img_twid[FFT_SIZE / 2]);
 
 #ifdef __cplusplus
 }
@@ -40,10 +42,10 @@ extern "C"
 
 struct bench_args_t
 {
-        double real[FFT_SIZE];
-        double img[FFT_SIZE];
-        double real_twid[FFT_SIZE / 2];
-        double img_twid[FFT_SIZE / 2];
+  double real[FFT_SIZE];
+  double img[FFT_SIZE];
+  double real_twid[FFT_SIZE / 2];
+  double img_twid[FFT_SIZE / 2];
 };
 
 #endif

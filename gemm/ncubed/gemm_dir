@@ -14,9 +14,9 @@
 #set_directive_unroll -factor 8 gemm/outter
 
 #pipeline
-set_directive_pipeline gemm/inner
-set_directive_pipeline gemm/middle
-set_directive_pipeline gemm/outter
+#set_directive_pipeline gemm/inner
+#set_directive_pipeline gemm/middle
+#set_directive_pipeline gemm/outter
 
 #resources
 set_directive_resource -core Mul "gemm" mult

@@ -30,7 +30,7 @@ TOP_FILE = stencil.c
 # 4-> 300
 CLKID = 1
 
-
+#-hls-tcl $(CURDIR)/stencil_dir
 HW_FLAGS := 
 ifneq ($(TARGET), cpu_emu)
 	HW_FLAGS += -sds-hw $(TOP_FUNCTION) $(CURDIR)/$(TOP_FILE) -clkid $(CLKID) -sds-end 

@@ -20,15 +20,39 @@ void needwun(char SEQA[ALEN], char SEQB[BLEN],
     int a_idx, b_idx;
     int a_str_idx, b_str_idx;
 
+    int _M[(ALEN + 1) * (BLEN + 1)];
+    char _ptr[(ALEN + 1) * (BLEN + 1)];
+
+    char _SEQA[ALEN];
+    char _SEQB[BLEN];
+
+    char _alignedA[ALEN + BLEN];
+    char _alignedB[ALEN + BLEN];
+
+bulk_read_1:
+    for (int ii = 0; ii < ALEN; ii++)
+    {
+        _SEQA[ii] = SEQA[ii];
+        _SEQB[ii] = SEQB[ii];
+    }
+
+
+BULK_READ_for_INOUT_SIGNAL:
+    for (int f = 0; f < ((ALEN + 1) * (BLEN + 1)); f++)
+    {
+        _M[f] = M[f];
+        _ptr[f] = ptr[f];
+    }
+//----------------------------------------------------------------------------
 init_row:
     for (a_idx = 0; a_idx < (ALEN + 1); a_idx++)
     {
-        M[a_idx] = a_idx * GAP_SCORE;
+        _M[a_idx] = a_idx * GAP_SCORE;
     }
 init_col:
     for (b_idx = 0; b_idx < (BLEN + 1); b_idx++)
     {
-        M[b_idx * (ALEN + 1)] = b_idx * GAP_SCORE;
+        _M[b_idx * (ALEN + 1)] = b_idx * GAP_SCORE;
     }
 
 // Matrix filling loop
@@ -38,7 +62,7 @@ fill_out:
     fill_in:
         for (a_idx = 1; a_idx < (ALEN + 1); a_idx++)
         {
-            if (SEQA[a_idx - 1] == SEQB[b_idx - 1])
+            if (_SEQA[a_idx - 1] == _SEQB[b_idx - 1])
             {
                 score = MATCH_SCORE;
             }
@@ -50,24 +74,24 @@ fill_out:
             row_up = (b_idx - 1) * (ALEN + 1);
             row = (b_idx) * (ALEN + 1);
 
-            up_left = M[row_up + (a_idx - 1)] + score;
-            up = M[row_up + (a_idx)] + GAP_SCORE;
-            left = M[row + (a_idx - 1)] + GAP_SCORE;
+            up_left = _M[row_up + (a_idx - 1)] + score;
+            up = _M[row_up + (a_idx)] + GAP_SCORE;
+            left = _M[row + (a_idx - 1)] + GAP_SCORE;
 
             max = MAX(up_left, MAX(up, left));
 
-            M[row + a_idx] = max;
+            _M[row + a_idx] = max;
             if (max == left)
             {
-                ptr[row + a_idx] = SKIPB;
+                _ptr[row + a_idx] = SKIPB;
             }
             else if (max == up)
             {
-                ptr[row + a_idx] = SKIPA;
+                _ptr[row + a_idx] = SKIPA;
             }
             else
             {
-                ptr[row + a_idx] = ALIGN;
+                _ptr[row + a_idx] = ALIGN;
             }
         }
     }
@@ -82,23 +106,23 @@ trace:
     while (a_idx > 0 || b_idx > 0)
     {
         r = b_idx * (ALEN + 1);
-        if (ptr[r + a_idx] == ALIGN)
+        if (_ptr[r + a_idx] == ALIGN)
         {
-            alignedA[a_str_idx++] = SEQA[a_idx - 1];
-            alignedB[b_str_idx++] = SEQB[b_idx - 1];
+            _alignedA[a_str_idx++] = _SEQA[a_idx - 1];
+            _alignedB[b_str_idx++] = _SEQB[b_idx - 1];
             a_idx--;
             b_idx--;
         }
-        else if (ptr[r + a_idx] == SKIPB)
+        else if (_ptr[r + a_idx] == SKIPB)
         {
-            alignedA[a_str_idx++] = SEQA[a_idx - 1];
-            alignedB[b_str_idx++] = '-';
+            _alignedA[a_str_idx++] = _SEQA[a_idx - 1];
+            _alignedB[b_str_idx++] = '-';
             a_idx--;
         }
         else
         { // SKIPA
-            alignedA[a_str_idx++] = '-';
-            alignedB[b_str_idx++] = SEQB[b_idx - 1];
+            _alignedA[a_str_idx++] = '-';
+            _alignedB[b_str_idx++] = _SEQB[b_idx - 1];
             b_idx--;
         }
     }
@@ -107,11 +131,27 @@ trace:
 pad_a:
     for (; a_str_idx < ALEN + BLEN; a_str_idx++)
     {
-        alignedA[a_str_idx] = '_';
+        _alignedA[a_str_idx] = '_';
     }
 pad_b:
     for (; b_str_idx < ALEN + BLEN; b_str_idx++)
     {
-        alignedB[b_str_idx] = '_';
+        _alignedB[b_str_idx] = '_';
     }
+//----------------------------------------------------------------------------
+
+BULK_WRITE_for_INOUT_SIGNAL:
+    for (int ff = 0; ff < ((ALEN + 1) * (BLEN + 1)); ff++)
+    {
+        M[ff] = _M[ff];
+        ptr[ff] = _ptr[ff];
+    }
+
+bulk_write_2:
+    for (int fff = 0; fff < ALEN + BLEN; fff++)
+    {
+        alignedA[fff] = _alignedA[fff];
+        alignedB[fff] = _alignedB[fff];
+    }
+
 }

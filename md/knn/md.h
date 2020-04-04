@@ -55,6 +55,7 @@ extern "C"
                  TYPE position_y[nAtoms],
                  TYPE position_z[nAtoms],
                  int32_t NL[nAtoms * maxNeighbors]);
+
   ////////////////////////////////////////////////////////////////////////////////
   // Test harness interface code.
 

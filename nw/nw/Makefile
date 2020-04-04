@@ -33,7 +33,7 @@ CLKID = 1
 
 HW_FLAGS := 
 ifneq ($(TARGET), cpu_emu)
-	HW_FLAGS += -sds-hw $(TOP_FUNCTION) $(CURDIR)/$(TOP_FILE) -clkid $(CLKID) -sds-end 
+	HW_FLAGS += -sds-hw $(TOP_FUNCTION) $(CURDIR)/$(TOP_FILE) -clkid $(CLKID) -hls-tcl $(CURDIR)/nw_dir -sds-end 
 endif
 
 BUILD_DIR := $(CURDIR)/build

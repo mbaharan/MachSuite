@@ -31,6 +31,8 @@ TOP_FILE = fft.c
 CLKID = 1
 
 
+# If I add the following direction file, it will cuase an INOUT NON-AXIM port error.
+#-hls-tcl $(CURDIR)/fft_dir
 HW_FLAGS := 
 ifneq ($(TARGET), cpu_emu)
 	HW_FLAGS += -sds-hw $(TOP_FUNCTION) $(CURDIR)/$(TOP_FILE) -clkid $(CLKID) -sds-end 
