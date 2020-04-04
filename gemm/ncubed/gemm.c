@@ -3,43 +3,50 @@
 void gemm(TYPE m1[N], TYPE m2[N], TYPE prod[N])
 {
     int i, j, k;
-    int k_col, i_col;
     TYPE mult;
 
-    TYPE _m1[N];
-    TYPE _m2[N];
-    TYPE _prod[N];
+    TYPE _m1[row_size][col_size];
+#pragma HLS array_partition variable = _m1 dim = 2 complete
+    TYPE _m2[row_size][col_size];
+#pragma HLS array_partition variable = _m2 dim = 1 complete
+    TYPE _prod[row_size][col_size];
+#pragma HLS array_partition variable = _prod dim = 2 complete
 
 bulk_read:
-    for (int ii = 0; ii < N; ii++)
+    for (int rr = 0; rr < row_size; rr++)
     {
-        _m1[ii] = m1[ii];
-        _m2[ii] = m2[ii];
+        for (int cc = 0; cc < col_size; cc++)
+        {
+            _m1[rr][cc] = m1[rr * col_size + cc];
+            _m2[rr][cc] = m2[rr * col_size + cc];
+        }
     }
 
 outer:
     for (i = 0; i < row_size; i++)
     {
-#pragma HLS PIPELINE II = 1
     middle:
         for (j = 0; j < col_size; j++)
         {
-            i_col = i * col_size;
+#pragma HLS UNROLL
             TYPE sum = 0;
         inner:
             for (k = 0; k < row_size; k++)
             {
-                k_col = k * col_size;
-                mult = _m1[i_col + k] * _m2[k_col + j];
+#pragma HLS PIPELINE
+                mult = _m1[i][k] * _m2[k][j];
                 sum += mult;
             }
-            _prod[i_col + j] = sum;
+            _prod[i][j] = sum;
         }
     }
 
 bulk_write:
-    for (int jj = 0; jj < N; jj++)
+    for (int row = 0; row < row_size; row++)
     {
-        prod[jj] = _prod[jj];
+        for (int col = 0; col < col_size; col++)
+        {
+            prod[row * col_size + col] = _prod[row][col];
+        }
     }
 }
