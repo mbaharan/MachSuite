@@ -12,11 +12,14 @@ int INPUT_SIZE = sizeof(struct bench_args_t);
 void run_benchmark(void *vargs)
 {
   struct bench_args_t *args = (struct bench_args_t *)vargs;
+
 #ifdef __SDSCC__
+  //READ: ------------------------------------------------------------------------------------------------------
   reset();
   start();
 #endif
-  gemm(args->m1, args->m2, args->prod);
+  command_t cmd = __READ__;
+  gemm(args->m1, args->m2, args->prod, cmd);
 
 #ifdef __SDSCC__
   stop();
@@ -24,8 +27,39 @@ void run_benchmark(void *vargs)
   uint64_t compute_Total_avg = avg_cpu_cycles();
   double delay = (compute_Total_avg * (1000000.0 / (sds_clock_frequency())));
   //AP freq is 1.2GHz
+  printf("-> Number of CPU cycles halted for read %llu \t~\t %f(uS).\n", compute_Total_avg, delay);
+
+  //COMPUTE: ------------------------------------------------------------------------------------------------------
+  reset();
+  start();
+#endif
+  cmd = __COMPUTE__;
+  gemm(args->m1, args->m2, args->prod, cmd);
+
+#ifdef __SDSCC__
+  stop();
+
+  compute_Total_avg = avg_cpu_cycles();
+  delay = (compute_Total_avg * (1000000.0 / (sds_clock_frequency())));
+  //AP freq is 1.2GHz
   printf("-> Number of CPU cycles halted for kernel %llu \t~\t %f(uS).\n", compute_Total_avg, delay);
+
+  //WRITE: ------------------------------------------------------------------------------------------------------
+  reset();
+  start();
+#endif
+  cmd = __WRITE__;
+  gemm(args->m1, args->m2, args->prod, cmd);
+
+#ifdef __SDSCC__
+  stop();
+
+  compute_Total_avg = avg_cpu_cycles();
+  delay = (compute_Total_avg * (1000000.0 / (sds_clock_frequency())));
+  //AP freq is 1.2GHz
+  printf("-> Number of CPU cycles halted for write back %llu \t~\t %f(uS).\n", compute_Total_avg, delay);
   printf("-> For this AP Thick/S is %d.\n", sds_clock_frequency());
+
 #endif
 }
 

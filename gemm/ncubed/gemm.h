@@ -1,6 +1,7 @@
 //Standard Libraries
 #include <stdio.h>
 #include <stdlib.h>
+#include "command.h"
 #include "support.h"
 
 //Define compute data type
@@ -38,7 +39,7 @@ extern "C"
     : SEQUENTIAL)
 
 
-  void gemm(TYPE m1[N], TYPE m2[N], TYPE prod[N]);
+  void gemm(TYPE m1[N], TYPE m2[N], TYPE prod[N], command_t cmd);
 
 #ifdef __cplusplus
 }

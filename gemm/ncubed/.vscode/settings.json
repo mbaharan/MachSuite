@@ -67,7 +67,8 @@
     },
     "C_Cpp.default.includePath": [
         "${workspaceFolder}/",
-        "${workspaceFolder}/../../common"
+        "${workspaceFolder}/../../common",
+        "-I${workspaceFolder}/../../common/utils/"
     ],
     "C_Cpp.dimInactiveRegions": false
 }
