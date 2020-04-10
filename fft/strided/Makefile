@@ -55,7 +55,7 @@ endif
 
 
 #CFLAGS = -g -Wall -O3 -c -I$(CURDIR)/inc/ -fno-builtin -D__HW__ -Wno-unused-label #-D__DEBUG__ -D__CHECK_REULTS_PER_LAYER__
-CFLAGS = -Wall -O3 -c -I$(CURDIR)/../../common -I$(CURDIR)/ -fno-builtin -Wno-unused-label
+CFLAGS = -Wall -O3 -c -I$(CURDIR)/../../common -I$(CURDIR)/../../common/utils/ -I$(CURDIR)/ -fno-builtin -Wno-unused-label
 CFLAGS += -MT"$@" -MMD -MP -MF"$(@:%.o=%.d)" -MT"$(@)"
 LFLAGS = "$@" "$<"
 #SDSFLAGS := -sds-pf $(CURDIR)/$(BOARD)/platforms/$(OVERLAY) -target-os linux

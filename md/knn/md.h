@@ -7,6 +7,7 @@ In Proceedings of the 3rd Workshop on General-Purpose Computation on Graphics Pr
 
 #include <stdlib.h>
 #include <stdio.h>
+#include "command.h"
 #include "support.h"
 
 #define TYPE double
@@ -54,7 +55,7 @@ extern "C"
                  TYPE position_x[nAtoms],
                  TYPE position_y[nAtoms],
                  TYPE position_z[nAtoms],
-                 int32_t NL[nAtoms * maxNeighbors]);
+                 int32_t NL[nAtoms * maxNeighbors], command_t cmd);
 
   ////////////////////////////////////////////////////////////////////////////////
   // Test harness interface code.

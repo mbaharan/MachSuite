@@ -24,11 +24,12 @@ extern "C"
 {
 #endif
 
-  
+/*
 #pragma SDS data zero_copy( \
     m1 [0:N],               \
     m2 [0:N],               \
     prod [0:N])
+*/
 
 #pragma SDS data access_pattern( \
     m1                           \
@@ -37,7 +38,6 @@ extern "C"
     : SEQUENTIAL,                \
       prod                       \
     : SEQUENTIAL)
-
 
   void gemm(TYPE m1[N], TYPE m2[N], TYPE prod[N], command_t cmd);
 

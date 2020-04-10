@@ -15,6 +15,7 @@
 //                "-std=c++98",
                 "-I/usr/include/",
                 "-I${workspaceFolder}/",
+                "-I${workspaceFolder}/../../common/utils/",
                 "-I${workspaceFolder}/../../common/",
                 "-I/tools/Xilinx/Vivado/2018.3/include/",
                 "${workspaceFolder}/nw.c",

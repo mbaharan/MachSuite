@@ -63,7 +63,8 @@
         "random": "cpp",
         "set": "cpp",
         "condition_variable": "cpp",
-        "bfs.h": "c"
+        "bfs.h": "c",
+        "gemm.h": "c"
     },
     "C_Cpp.default.includePath": [
         "${workspaceFolder}/",

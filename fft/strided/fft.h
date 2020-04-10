@@ -3,6 +3,7 @@
 
 #include <stdio.h>
 #include <stdlib.h>
+#include "command.h"
 #include "support.h"
 
 #define FFT_SIZE 1024
@@ -31,7 +32,7 @@ extern "C"
       img_twid                   \
     : SEQUENTIAL)
 
-  void fft(double real[FFT_SIZE], double img[FFT_SIZE], double real_twid[FFT_SIZE / 2], double img_twid[FFT_SIZE / 2]);
+  void fft(double real[FFT_SIZE], double img[FFT_SIZE], double real_twid[FFT_SIZE / 2], double img_twid[FFT_SIZE / 2], command_t cmd);
 
 #ifdef __cplusplus
 }

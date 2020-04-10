@@ -63,11 +63,15 @@
         "random": "cpp",
         "set": "cpp",
         "condition_variable": "cpp",
-        "bfs.h": "c"
+        "bfs.h": "c",
+        "md.h": "c",
+        "support.h": "c",
+        "command.h": "c"
     },
     "C_Cpp.default.includePath": [
         "${workspaceFolder}/",
-        "${workspaceFolder}/../../common"
+        "${workspaceFolder}/../../common",
+        "-I${workspaceFolder}/../../common/utils/",
     ],
     "C_Cpp.dimInactiveRegions": false
 }
