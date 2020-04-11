@@ -16,7 +16,8 @@ void run_benchmark(void *vargs)
   reset();
   start();
 #endif
-  stencil3d(args->C, args->orig, args->sol);
+  command_t cmd = __READ__;
+  stencil3d(args->C, args->orig, args->sol, cmd);
 
 #ifdef __SDSCC__
   stop();
@@ -24,10 +25,35 @@ void run_benchmark(void *vargs)
   uint64_t compute_Total_avg = avg_cpu_cycles();
   double delay = (compute_Total_avg * (1000000.0 / (sds_clock_frequency())));
   //AP freq is 1.2GHz
-  printf("-> Number of CPU cycles halted for kernel %llu \t~\t %f(uS).\n", compute_Total_avg, delay);
+  PRINT_READ_TIME(compute_Total_avg, delay);
+  reset();
+  start();
+#endif
+  cmd = __COMPUTE__;
+  stencil3d(args->C, args->orig, args->sol, cmd);
+
+#ifdef __SDSCC__
+  stop();
+
+  compute_Total_avg = avg_cpu_cycles();
+  delay = (compute_Total_avg * (1000000.0 / (sds_clock_frequency())));
+  //AP freq is 1.2GHz
+  PRINT_KERNEL_TIME(compute_Total_avg, delay);
+  reset();
+  start();
+#endif
+  cmd = __WRITE__;
+  stencil3d(args->C, args->orig, args->sol, cmd);
+
+#ifdef __SDSCC__
+  stop();
+
+  compute_Total_avg = avg_cpu_cycles();
+  delay = (compute_Total_avg * (1000000.0 / (sds_clock_frequency())));
+  //AP freq is 1.2GHz
+  PRINT_WRITE_TIME(compute_Total_avg, delay);
   printf("-> For this AP Thick/S is %d.\n", sds_clock_frequency());
 #endif
-
 }
 
 /* Input format:

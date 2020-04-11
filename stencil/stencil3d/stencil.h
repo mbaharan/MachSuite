@@ -8,6 +8,7 @@ SC 2008
 #include <stdio.h>
 #include <stdlib.h>
 #include "support.h"
+#include "command.h"
 
 //Define input sizes
 #define height_size 32
@@ -34,7 +35,7 @@ SC 2008
       sol                        \
     : SEQUENTIAL)
 
-void stencil3d(TYPE C[2], TYPE orig[SIZE], TYPE sol[SIZE]);
+void stencil3d(TYPE C[2], TYPE orig[SIZE], TYPE sol[SIZE], command_t cmd);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Test harness interface code.

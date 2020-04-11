@@ -1,6 +1,7 @@
 #include <stdio.h>
 #include <stdlib.h>
 #include "support.h"
+#include "command.h"
 
 //Define input sizes
 #define col_size 64
@@ -30,7 +31,7 @@
 
 void stencil(TYPE orig[row_size * col_size],
              TYPE sol[row_size * col_size],
-             TYPE filter[f_size]);
+             TYPE filter[f_size], command_t cmd);
 
 ////////////////////////////////////////////////////////////////////////////////
 // Test harness interface code.

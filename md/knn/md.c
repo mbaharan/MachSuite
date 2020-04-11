@@ -93,6 +93,7 @@ void md_kernel(TYPE force_x[nAtoms],
     bulk_write:
         for (int jj = 0; jj < nAtoms; jj++)
         {
+#pragma HLS PIPELINE
             force_x[jj] = _force_x[jj];
             force_y[jj] = _force_y[jj];
             force_z[jj] = _force_z[jj];

@@ -16,6 +16,7 @@
                 "-I/usr/include/",
                 "-I${workspaceFolder}/",
                 "-I${workspaceFolder}/../../common/",
+                "-I${workspaceFolder}/../../common/utils/",
                 "-I/tools/Xilinx/Vivado/2018.3/include/",
                 "${workspaceFolder}/stencil.c",
                 "${workspaceFolder}/local_support.c",
